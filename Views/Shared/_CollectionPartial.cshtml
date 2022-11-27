@@ -1,0 +1,89 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using WebProjectMVC.Data;
+@using WebProjectMVC.Models;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model WebProjectMVC.ViewModels.PhotoViewModel
+
+@{
+    var photo = Model.Photo;
+    var reactionRef = Model.ReactionRef;
+}
+
+<div class="card mt-2">
+    <div class="card-header">
+        <div class="sticky-top">
+            <div class="row">
+                <div class="col-7 col-md-7 col-lg-7">
+                    <h4>@Html.DisplayFor(model => model.Photo.Title)</h4>
+                    <h6>Collection Owner: @photo.User.FirstName, @photo.User.LastName</h6>
+                    <small>@Html.DisplayFor(model => model.Photo.Description)</small>
+                </div>
+                <div class="col-5 text-end">
+                    <a asp-action="Details" asp-route-id="@Model.Photo.Id" class="fa-solid fa-folder-open fa-2x nav-link text-success m-0 p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Open Collection"></a>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model.Photo.Id" class="fa-solid fa-pen-to-square fa-2x nav-link text-warning m-0 p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Edit Collection"></a>
+                        <a asp-action="Delete" asp-route-id="@Model.Photo.Id" class="fa-solid fa-eraser fa-2x nav-link text-danger m-0 p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Delete Collection"></a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="card-group">
+
+            @{
+                var cnt = 0;
+                foreach (var item in Model.Photo.PhotoDetails)
+                {
+                    cnt = cnt + 1;
+                    <div class="card">
+                        <div class="card-body" style="background-size: cover; background-repeat: no-repeat; background-position: center; background-image:url('data:image/jpeg;base64,@Convert.ToBase64String(item.Bytes)')">
+                            <br><br><br><br><br><br><br><br><br><br><br>
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">@item.Description</small>
+                        </div>
+                    </div>
+
+                    if (cnt == 3)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            @if (Model.Photo.PhotoDetails.Count() > 3)
+            {
+                <div class="card">
+
+                    <a asp-action="Details" asp-route-id="@Model.Photo.Id">
+                        <div class="card-body text-center" style="background-repeat: no-repeat; background-position: center; background-image:url('/img/view-more.png')">
+                            <br><br><br><br><br><br><br><br><br><br><br>
+                        </div>
+                    </a>
+                    <div class="card-footer">
+                        <small class="text-muted">
+                            More...(@Html.Label("photoCount",(Model.Photo.PhotoDetails.Count()-3).ToString()))
+                        </small>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+    <div class="card-footer">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @Html.Partial("_ReactionHIconPartial", Model)
+        }
+        else
+        {
+            @Html.Label("label",photo.User.FirstName + "'s Collection")
+        }
+    </div>
+
+</div>

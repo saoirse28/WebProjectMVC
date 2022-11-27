@@ -1,0 +1,85 @@
+﻿@model WebProjectMVC.Models.Photo
+
+@using Microsoft.AspNetCore.Identity;
+@using WebProjectMVC.Data;
+@inject SignInManager<ApplicationUser> SignInManager;
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Upload new Photo Collection";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var userInfo = await UserManager.FindByNameAsync(User.Identity?.Name);
+    <div class="card">
+        <div class="row">
+            <div class="col-4 d-flex justify-content-center align-items-center rounded-start">
+                <i class="fa-solid fa-arrow-up-from-bracket fa-10x"></i>
+            </div>
+            <div class="col-8">
+                <div class="card-body">
+
+                    <form asp-action="Create" enctype="multipart/form-data" method="post">
+
+                        <a asp-action="Index" class="fa-solid fa-circle-left fa-2x nav-link text-dark m-0 p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Back to your Gallery"></a>
+                        <button type="submit" style="border:none;outline:none;background-color:transparent !important;" class="button-solid fa-solid fa-floppy-disk fa-2x text-success text- m-0 p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Save Photos"></button>
+                        <button type="reset" style="border:none;outline:none;background-color:transparent !important;" class="button-solid fa-solid fa-eraser fa-2x text-info text- m-0 p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Reset Form"></button>
+
+                        <hr />
+                        <h3 class="mt-3">@ViewData["Title"]</h3>
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="row mt-2">
+                            <div class="form-group col">
+                                <label asp-for="Title" class="form-label"></label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fa-solid fa-align-left"></i></span>
+                                    <input asp-for="Title" class="form-control" aria-required="true" />
+                                </div>
+                                <span asp-validation-for="Title" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mt-1">
+                            <div class="form-group col">
+                                <label asp-for="Description" class="form-label"></label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fa-solid fa-align-justify"></i></span>
+                                    <input asp-for="Description" class="form-control" aria-required="true" />
+                                </div>
+                                <span asp-validation-for="Description" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="row mt-1">
+                            <div class="form-group col">
+                                <label asp-for="Files" class="form-label"></label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fa-solid fa-file-arrow-up"></i></span>
+                                    <input type="file" multiple asp-for="Files" class="form-control" aria-required="true" />
+                                </div>
+                                <span asp-validation-for="Files" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    @Html.Partial("_UnauthorizedPartial")
+}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

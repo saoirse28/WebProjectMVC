@@ -1,0 +1,78 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+    Layout = "~/Areas/Identity/Pages/_ManageLayout.cshtml";
+}
+
+<div class="card">
+    <div class="row">
+        <div class="col-4 d-flex justify-content-center align-items-center rounded-start">
+            <i class="fa-solid fa-circle-user fa-10x"></i>
+        </div>
+        <div class="col-8">
+            <div class="card-body">
+
+                <h3>@ViewData["Title"]</h3>
+                <partial name="_StatusMessage" for="StatusMessage" />
+
+                <h5 class="card-title mb-5">@Model.Username (@Model.Email)</h5>
+
+
+                <form id="profile-form" method="post">
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                    <div class="row mt-1">
+                        <div class="form-group col-6">
+                            <label asp-for="Input.FirstName" class="form-label"></label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-align-justify"></i></span>
+                                <input asp-for="Input.FirstName" class="form-control" aria-required="true" />
+                            </div>
+                            <span asp-validation-for="Input.FirstName" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="Input.LastName" class="form-label"></label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-align-justify"></i></span>
+                                <input asp-for="Input.LastName" class="form-control" aria-required="true" />
+                            </div>
+                            <span asp-validation-for="Input.LastName" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-1">
+                        <div class="form-group col-6">
+                            <label asp-for="Input.PhoneNumber" class="form-label"></label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+                                <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="new-password" aria-required="true" />
+                            </div>
+                            <span asp-validation-for="Input.PhoneNumber" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-2">
+                        <div class="col">
+                            <div class="form-group">
+                                <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Update</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

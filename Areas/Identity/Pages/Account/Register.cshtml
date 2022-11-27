@@ -1,0 +1,101 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Areas/Identity/Pages/_AuthLayout.cshtml";
+}
+
+<form class="m-5" id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+
+    <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+
+    <div class="row mt-1">
+        <div class="col">
+            <div class="form-group">
+                <label asp-for="Input.UserName" class="form-label"></label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                    <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true" />
+                </div>
+                <span asp-validation-for="Input.UserName" class="text-danger small"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1">
+        <div class="form-group col-6">
+            <label asp-for="Input.FirstName" class="form-label"></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fa-solid fa-align-justify"></i></span>
+                <input asp-for="Input.FirstName" class="form-control" autocomplete="new-password" aria-required="true" />
+            </div>
+            <span asp-validation-for="Input.FirstName" class="text-danger small"></span>
+        </div>
+        <div class="form-group col-6">
+            <label asp-for="Input.LastName" class="form-label"></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-align-justify"></i></span>
+                <input asp-for="Input.LastName" class="form-control" autocomplete="new-password" aria-required="true" />
+            </div>
+            <span asp-validation-for="Input.LastName" class="text-danger small"></span>
+        </div>
+    </div>
+
+    <div class="row mt-1">
+        <div class="col">
+            <div class="form-group">
+                <label asp-for="Input.Email" class="form-label"></label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-envelope"></i></span>
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                </div>
+                <span asp-validation-for="Input.Email" class="text-danger small"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1">
+        <div class="form-group col-6">
+            <label asp-for="Input.Password" class="form-label"></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-key"></i></span>
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+            </div>
+            <span asp-validation-for="Input.Password" class="text-danger small"></span>
+        </div>
+        <div class="form-group col-6">
+            <label asp-for="Input.ConfirmPassword" class="form-label"></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-key"></i></span>
+            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+            </div>
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col">
+            <div class="form-group">
+                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(function () {
+            var current = location.pathname;
+            $('.nav-tabs li a').each(function () {
+                var $this = $(this);
+                if (current.indexOf($this.attr('href')) !== -1) {
+                    $this.addClass('active');
+                }
+            })
+        })
+    </script>
+}

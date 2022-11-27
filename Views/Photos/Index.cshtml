@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WebProjectMVC.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@model WebProjectMVC.ViewModels.PhotoViewModel
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+@foreach (var item in Model.PhotoList)
+{
+    Model.Photo = item;
+    @Html.Partial("_CollectionPartial",Model);
+}

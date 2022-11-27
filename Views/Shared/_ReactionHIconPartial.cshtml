@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using WebProjectMVC.Data;
+@using WebProjectMVC.Models;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model WebProjectMVC.ViewModels.PhotoViewModel
+
+@{
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    foreach(var item in Model.ReactionRef)
+    {
+        var cnt = 0;
+        if (Model.Photo.PhotoReactions!=null)
+        {
+            cnt = Model.Photo.PhotoReactions.AsEnumerable().Count(r => r.ReactionId == item.Id);
+        }        
+        <a asp-controller="PhotoReactions" asp-action="TagReaction" asp-route-PhotoId="@Model.Photo.Id" asp-route-ReactionId="@item.Id" 
+        style="text-decoration:none">
+            <small class="fw-light">
+                @if (cnt!=0)
+                {
+                    @Html.Label(cnt.ToString());
+                }
+                <i class="fa-solid @item.Icon  @item.Color fa-2x me-2"
+           data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="@item.Name"></i>
+            </small>
+        </a> 
+    }
+}

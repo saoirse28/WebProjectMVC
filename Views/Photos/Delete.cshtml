@@ -1,0 +1,62 @@
+﻿@model WebProjectMVC.Models.Photo
+
+@using Microsoft.AspNetCore.Identity;
+@using WebProjectMVC.Data;
+@inject SignInManager<ApplicationUser> SignInManager;
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="sticky-top bg-white">
+        <h1>
+            <a asp-action="Index" class="fa-solid fa-circle-left nav-link text-dark m-0 p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Back to your Gallery"></a>
+            <a asp-action="Edit" asp-route-id="@Model?.Id" style="border:none;outline:none;background-color:transparent !important;text-decoration:none;" class="button-solid fa-solid fa-pen-to-square text-warning m-0 p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Edit Collection"></a>
+            @Model.User.FirstName's Collection
+        </h1>
+
+    </div>
+
+    <hr />
+    <h3>Are you sure you wan't to delete this collection?</h3>
+
+    <div>
+
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-4">
+                Collection Owner
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.User.FirstName)
+            </dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="Confirm Delete" class="btn btn-danger" />
+        </form>
+    </div>
+
+}
+else
+{
+    @Html.Partial("_UnauthorizedPartial")
+}

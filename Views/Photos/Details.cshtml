@@ -1,0 +1,51 @@
+﻿@model WebProjectMVC.ViewModels.PhotoViewModel
+@using Microsoft.AspNetCore.Identity
+@using WebProjectMVC.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Collection Details";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+    var photo = Model.Photo;
+    var reactionRef = Model.ReactionRef;
+    var reactionSize = "col";
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    reactionSize = "col-7 col-md-7 col-lg-7";
+}
+
+<div class="sticky-top bg-white">
+    <h1>
+        <a asp-action="Index" class="fa-solid fa-circle-left nav-link text-dark m-0 p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Back to Collections"></a>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Photo.Id" style="border:none;outline:none;background-color:transparent !important;text-decoration:none;" class="button-solid fa-solid fa-pen-to-square text-warning m-0 p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Edit Collection"></a>
+            <a asp-action="Delete" asp-route-id="@Model.Photo.Id" style="border:none;outline:none;background-color:transparent !important;text-decoration:none;" class="button-solid fa-solid fa-eraser text-danger m-0 p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Delete Collection"></a>
+        }
+    </h1>
+
+    <div class="row">
+        <div class="@reactionSize">
+            <h4>@Html.DisplayFor(model => model.Photo.Title)</h4>
+        </div>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <div class="col-5 text-end">
+                @Html.Partial("_ReactionHIconPartial",Model)
+        </div>
+        }
+    </div>
+
+    <h6>Collection Owner: @Model.Photo.User.FirstName, @Model.Photo.User.LastName</h6>
+    <small class="text-black">@Html.DisplayFor(model => model.Photo.Description)</small>
+</div>
+
+
+@foreach (var item in Model.Photo.PhotoDetails)
+{
+    Model.PhotoDetail = item;
+    @Html.Partial("_PhotoItemPartial", Model);
+}

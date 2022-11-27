@@ -1,0 +1,24 @@
+﻿@model WebProjectMVC.ViewModels.PhotoViewModel
+@using Microsoft.AspNetCore.Identity
+@using WebProjectMVC.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<div class="sticky-top bg-white">
+    <h3>
+        <a asp-controller="Photos" asp-action="Details" asp-route-id="@Model.PhotoDetail.Photo.Id" 
+            class="fa-solid fa-circle-left nav-link text-dark m-0 p-2" 
+            data-bs-toggle="tooltip" 
+            data-bs-placement="right" 
+            data-bs-original-title="Back to Collection"></a>
+        From @Model.PhotoDetail.Photo.User.FirstName's @Model.PhotoDetail.Photo.Title Collections
+    </h3>
+    <small class="text-black">@Html.DisplayFor(model => model.Photo.Description)</small>
+</div>
+
+@Html.Partial("_PhotoItemPartial", Model)

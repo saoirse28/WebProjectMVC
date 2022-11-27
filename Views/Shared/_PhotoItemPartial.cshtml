@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using WebProjectMVC.Data;
+@using WebProjectMVC.Models;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model WebProjectMVC.ViewModels.PhotoViewModel
+
+@{
+    var item = Model.PhotoDetail;
+    var reactionRef = Model.ReactionRef;
+} 
+
+<div class="card mt-2">
+
+    <div class="card-header">
+        <a asp-action="Delete" asp-controller="PhotoDetails" asp-route-id="@Model.PhotoDetail.Id">
+            <i class="fa-solid fa-eraser fa-2x text-danger"
+               data-bs-toggle="tooltip"
+               data-bs-placement="right"
+               data-bs-original-title="Remove from Collection"></i>
+        </a> @Model.PhotoDetail.Description
+    </div>
+
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-10 d-flex justify-content-center align-items-center rounded-start">
+                <img src="data:image/jpg;base64,@Convert.ToBase64String(item.Bytes)" class="card-img-top" alt="Title">
+            </div>
+            <div class="col-2">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @Html.Partial("_ReactionVIconPartial",Model)
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <ul class="list-group list-group-flush">
+        @Html.Partial("_CommentListPartial")
+    </ul>
+
+    <div class="card-footer">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @Html.Partial("_CommentInputPartial")
+        }
+        else
+        {
+            @Html.Label("label","Sign in to Comment.")
+        }
+        
+    </div>
+
+</div>

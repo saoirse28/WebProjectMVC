@@ -1,0 +1,31 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row m-0 p-0 h-100">
+    <div class="col-10 col-sm-8 col-md-7 col-lg-6 col-xl-6 col-xxl-6 m-4">
+        <div class="card login-logout-tab">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs justify-content-end nav-fill">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Identity/Account/Login">Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Identity/Account/Register">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-content">
+                <div class="row">
+                    <div class="col-12">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await RenderSectionAsync("Scripts", required: false)
+}

@@ -1,0 +1,69 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using WebProjectMVC.Data;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebProjectMVC</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebProjectMVC.styles.css" asp-append-version="true" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div id="sidebar" class="m-0 p-0 d-flex flex-column flex-shrink-0 text-white bg-dark sidebar sticky-top" style="width:5rem; z-index:100000">
+                <ul class="nav nav-pills nav-flush flex-column mb-auto text-center text-white">
+
+                    <li class="mt-5">
+                        @Html.Partial("_NotificationPartial")
+                    </li>
+
+                    <li>
+                        <a asp-controller="Photos" asp-action="Index" class="nav-link py-3 text-white" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Photo Collections">
+                            <i class="fa-solid fa-images fa-2x"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Photos" asp-action="Create" class="nav-link py-3 text-white" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Upload New Collection">
+                            <i class="fa-solid fa-arrow-up-from-bracket fa-2x"></i>
+                        </a>
+                    </li>
+
+
+                </ul>
+
+                <partial name="_LoginPartial" />
+
+            </div>
+            <div class="col py-3">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/sidebars.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/signalr.js"></script>
+    <script src="~/js/notificationr.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

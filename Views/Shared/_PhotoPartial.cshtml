@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using WebProjectMVC.Data;
+@using WebProjectMVC.Models;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model WebProjectMVC.ViewModels.PhotoViewModel
+
+@{
+    var item = Model.Photo;
+    var reactionRef = Model.ReactionRef;
+}
+
+<div class="card mb-4">
+    <div class="card-header">
+        <div class="row">
+
+            <div class="col-9">
+                <h3 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h3>
+                <small class="fw-light">@Html.DisplayFor(modelItem => item.Description)</small>
+            </div>
+
+            <div class="col-3 text-end p-0">
+                <a asp-action="Edit" asp-route-id="@item.Id" style="border:none;outline:none;background-color:transparent !important;text-decoration:none;" class="button-solid fa-solid fa-pen-to-square text-warning fa-2x m-0 p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Edit Collection"></a>
+                <a asp-action="Details" asp-route-id="@item.Id" style="border:none;outline:none;background-color:transparent !important;text-decoration:none;" class="button-solid fa-solid fa-folder-open text-success fa-2x m-0 p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Open Collection"></a>
+                <a asp-action="Delete" asp-route-id="@item.Id" style="border:none;outline:none;background-color:transparent !important;text-decoration:none;" class="button-solid fa-solid fa-eraser text-danger fa-2x m-0 p-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Delete Collection"></a>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-body">
+
+        <div class="card-group">
+            @{
+                var icount = 0;
+                foreach (var details in item.PhotoDetails)
+                {
+                    icount = icount + 1;
+                    <div class="card">
+                        <img src="data:image/jpg;base64,@Convert.ToBase64String(details.Bytes)" class="card-img-top" alt="Title">
+                        <div class="card-footer">
+                            <p class="card-text">@Html.DisplayFor(modelItem => details.Description)</p>
+                        </div>
+                    </div>
+                    if (icount==3)
+                    {
+                        break;
+                    }
+                }
+            }
+            @if (item.PhotoDetails.Count > 3)
+            {
+                var remainingImg = item.PhotoDetails.Count - 3;
+                <div class="card">
+                    <div class="card-body justify-content-center align-items-center">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="fa-solid fa-angles-right fa-5x text-secondary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Browse more photos..." style="border:none;outline:none;background-color:transparent !important;text-decoration:none;"></a>
+                    </div>
+                    <div class="card-footer">
+                        More Photos...(@remainingImg)
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="card-footer">
+
+        <div class="row">
+
+            <div class="col-9">
+                Owner: @item.User.FirstName, @item.User.FirstName
+            </div>
+            <div class="col-3 text-end p-0">
+                @Html.Partial("_ReactionHIconPartial",reactionRef)
+            </div>
+
+        </div>
+    </div>
+</div>

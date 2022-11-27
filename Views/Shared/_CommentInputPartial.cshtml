@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using WebProjectMVC.Data;
+@using WebProjectMVC.Models;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model WebProjectMVC.ViewModels.PhotoViewModel;
+
+@{
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-controller="PhotoDetailComments" asp-action="Create">
+        <div class="input-group">
+            <span class="input-group-text"><i class="fa-regular fa-comment-dots"></i></span>
+            <input asp-for="@Model.PhotoDetailComment.Detail"  class="form-control" aria-required="true" placeholder="Write your comment here." />
+            <input type="hidden" asp-for="@Model.PhotoDetailComment.PhotoDetailId" value="@Model.PhotoDetail.Id"/>
+            <input type="hidden" asp-for="@Model.PhotoDetailComment.ApplicationUserId" value="@UserManager.GetUserId(User)" />
+            <button class="input-group-text text-primary"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </form>
+}
+

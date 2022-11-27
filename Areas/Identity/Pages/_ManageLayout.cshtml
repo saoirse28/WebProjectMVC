@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row m-0 p-0 h-100">
+    <div class="col-10 col-sm-8 col-md-7 col-lg-6 col-xl-6 col-xxl-6 m-4">
+        @RenderBody()
+    </div>
+</div>
+
+@section Scripts {
+    @await RenderSectionAsync("Scripts", required: false)
+}

@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using WebProjectMVC.Data;
+@using WebProjectMVC.Models;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@model WebProjectMVC.ViewModels.PhotoViewModel
+
+@{
+}
+
+@foreach (var comment in Model.PhotoDetail.PhotoDetailComments)
+{
+    <li class="list-group-item">
+        [<small class="text-success">@comment.User.FirstName</small>] @comment.Detail
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            var userInfo = await UserManager.FindByNameAsync(User.Identity?.Name);
+            if (userInfo == comment.User)
+            {
+                <a asp-controller="PhotoDetailComments" asp-action="DeleteConfirmed" asp-route-id="@comment.Id">
+                    Delete
+                </a>
+            }
+        }
+
+    </li>
+}
+
+
